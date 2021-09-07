@@ -22,14 +22,3 @@ This is the data base for City Explorer app which will store data that will late
 -express
 
 -dotenv
-
-
-Name of feature: Base Implementation.
-
-Estimate of time needed to complete: 1 hour
-
-Start time: 3:05pm
-
-Finish time: _____
-
-Actual time needed to complete: _____
