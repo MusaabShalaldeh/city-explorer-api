@@ -13,13 +13,19 @@ function Movie(item) {
 }
 
 let Movies = {};
-
+let MoviesMemory = {};
 //http://localhost:3010/movies?search_key=Amman
 Movies.getMoviesData = function (req, res) {
   let movieName = req.query.search_key;
-  const url = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${movieName}`;
-  console.log(url);
 
+  if(MoviesMemory[movieName] !== undefined)
+  {
+    res.send(MoviesMemory[movieName])
+    console.log(MoviesMemory[movieName]);
+  }
+  else{
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${movieName}`;
+  console.log(url);
   axios
     .get(url)
     .then((result) => {
@@ -27,6 +33,7 @@ Movies.getMoviesData = function (req, res) {
       let moviesData = result.data.results.map((item) => {
         return new Movie(item);
       });
+      MoviesMemory[movieName] = moviesData;
       res.send(moviesData);
     })
     .catch((error) => {
@@ -36,6 +43,7 @@ Movies.getMoviesData = function (req, res) {
       };
       res.status(500).send(errorData);
     });
+  }
 };
 
 module.exports = Movies;
